@@ -78,23 +78,25 @@ page.onConsoleMessage = function(msg) {
   consoleLogs.push(msg);
 };
 
-page.onLoadFinished = function(status) {
-  console.log('Status: ' + status);
-  if (status !== "success") {
-    return exitWithError("Unable to access " + url);
-  }
-  if (!page.injectJs(readabilityPath)) {
-    exitWithError("Couldn't inject " + readabilityPath);
-  }
-  var result = page.evaluate(runReadability, url, page.settings.userAgent, page.content);
-  if (result && result.error) {
-    result.error.consoleLogs = consoleLogs;
-  } else if (result && result.content) {
-    result.consoleLogs = consoleLogs;
-  }
-  outputJSON(result);
-  phantom.exit();
-  
-};
 
-page.open(url);
+
+page.open(url, function(status) {
+  console.log('Status: ' + status);
+  setTimeout(function(){
+    if (status !== "success") {
+      return exitWithError("Unable to access " + url);
+    }
+    if (!page.injectJs(readabilityPath)) {
+      exitWithError("Couldn't inject " + readabilityPath);
+    }
+    var result = page.evaluate(runReadability, url, page.settings.userAgent, page.content);
+    if (result && result.error) {
+      result.error.consoleLogs = consoleLogs;
+    } else if (result && result.content) {
+      result.consoleLogs = consoleLogs;
+    }
+    outputJSON(result);
+    phantom.exit();
+  }, 5000);
+  
+});
