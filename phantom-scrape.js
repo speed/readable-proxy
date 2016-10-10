@@ -81,8 +81,8 @@ page.onConsoleMessage = function(msg) {
 
 
 page.open(url, function(status) {
-  console.log('Status: ' + status);
-  setTimeout(function(){
+    console.log('Status: ' + status);
+  
     if (status !== "success") {
       return exitWithError("Unable to access " + url);
     }
@@ -97,6 +97,5 @@ page.open(url, function(status) {
     }
     outputJSON(result);
     phantom.exit();
-  }, 5000);
   
 });
