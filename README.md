@@ -12,6 +12,8 @@ Installation
     $ git clone https://github.com/n1k0/readable-proxy
     $ cd readable-proxy
     $ npm install
+    $ npm install phantomjs-prebuilt
+    
 
 Run
 ---
